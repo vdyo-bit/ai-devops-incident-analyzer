@@ -99,15 +99,15 @@ Processes are stuck in uninterruptible sleep
 👉 Load ≠ CPU usage
 
 ## What Prometheus Shows Better Than CLI Tools
-Trends
-Displays metric behavior over time rather than point-in-time snapshots.
-Makes gradual performance degradation visible.
-Correlations
-Allows comparison of multiple metrics on the same timeline.
-Example: rising load alongside increasing disk I/O wait.
-Historical Context
-Enables investigation of past incidents.
-Supports root cause analysis using historical data.
+### Trends
+- Displays metric behavior over time rather than point-in-time snapshots.
+- Makes gradual performance degradation visible.
+### Correlations
+- Allows comparison of multiple metrics on the same timeline.
+  Example: rising load alongside increasing disk I/O wait.
+### Historical Context
+- Enables investigation of past incidents.
+- Supports root cause analysis using historical data.
 
 ## What Prometheus Cannot Tell Me
 ### Exact Root Cause
