@@ -111,7 +111,7 @@ Supports root cause analysis using historical data.
 
 ## What Prometheus Cannot Tell Me
 ###Exact Root Cause
-Prometheus shows what changed, not why it changed.
+- Prometheus shows what changed, not why it changed.
 Further investigation using logs, traces, or system-level debugging is required.
 Business Impact
 Metrics reflect system behavior, not user experience or revenue impact.
