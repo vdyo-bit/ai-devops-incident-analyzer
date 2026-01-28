@@ -113,15 +113,15 @@ Supports root cause analysis using historical data.
 ### Exact Root Cause
 - Prometheus shows what changed, not why it changed.
 - Further investigation using logs, traces, or system-level debugging is required.
-- Business Impact
-Metrics reflect system behavior, not user experience or revenue impact.
-Application-level and business metrics are needed for this context.
-Intent
+### Business Impact
+- Metrics reflect system behavior, not user experience or revenue impact.
+- Application-level and business metrics are needed for this context.
+### Intent
 - Prometheus cannot distinguish between:
-    Legitimate workload
-    Misconfiguration
-    Faulty application behavior
-    Human analysis and domain knowledge are required.
+   - Legitimate workload
+   - Misconfiguration
+   - Faulty application behavior
+- Human analysis and domain knowledge are required.
 
 ## Summary
 This setup demonstrates how Prometheus and node_exporter provide deep visibility into system behavior through time-series metrics, while also highlighting the importance of combining monitoring data with logs, traces, and contextual knowledge for effective troubleshooting.
