@@ -125,6 +125,24 @@ Metrics provide signals, not answers.
 - No steal time, confirming no hypervisor CPU pressure
 - System remains stable and responsive under idle conditions
 
+### CPU Stress Experiment — sar Observations
+- CPU user time increased after starting yes > /dev/null &
+- System CPU usage increased significantly due to frequent kernel syscalls
+- Idle CPU dropped from ~98% to ~49%, indicating sustained CPU load
+- No iowait observed, confirming workload was CPU-bound
+- No steal time recorded, indicating no hypervisor CPU throttling
+- After stopping the process, CPU utilization returned to baseline
+- CPU load affected only part of total capacity (single process on 2 vCPUs)
+
+### CPU Stress Experiment — vmstat Observations
+- Run queue (r) increased, showing higher CPU demand
+- CPU idle (id) dropped immediately, reflecting real-time stress
+- User and system CPU time increased, confirming active processing
+- No I/O wait (wa) observed, ruling out disk bottlenecks
+- No swap activity (si/so), indicating sufficient memory
+- Steal time (st) remained zero, confirming no cloud CPU contention
+- CPU metrics returned to normal instantly after terminating the process
+
 
 
 
