@@ -11,18 +11,17 @@ Linux Kernel → node_exporter → /metrics endpoint → Prometheus
 
 ## Key Metrics Observed
 CPU Metrics
-node_cpu_seconds_total
-A cumulative counter representing total CPU time spent in different modes (user, system, idle, iowait, etc.).
-Key understanding:
-CPU usage percentages are derived, not stored, by calculating the rate of change of this counter over time.
-🧠 CPU — node_cpu_seconds_total
-❓ Why is this counter increasing?
-It is a counter that tracks total CPU time spent in different modes:
-user
-system
-idle
-iowait
-etc.
+- node_cpu_seconds_total
+- A cumulative counter representing total CPU time spent in different modes (user, system, idle, iowait, etc.).
+- Key understanding:
+- CPU usage percentages are derived, not stored, by calculating the rate of change of this counter over time.
+- 🧠 CPU — node_cpu_seconds_total
+- ❓ Why is this counter increasing?
+- It is a counter that tracks total CPU time spent in different modes:
+- user
+- system
+- idle
+- iowait etc.
 As long as the system is running, CPU time always accumulates
 It never resets (except reboot)
 👉 Even an idle CPU is still accumulating idle time.
