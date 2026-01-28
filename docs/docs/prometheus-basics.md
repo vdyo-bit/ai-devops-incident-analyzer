@@ -80,14 +80,14 @@ node_disk_read_time_seconds_total
 Time spent servicing read requests
 High value = many reads or slow reads
 
-Load Metrics
-node_load1, node_load5
+### Load Metrics
+- node_load1, node_load5 -
 Average number of runnable or blocked processes over time windows.
-Key understanding:
-Load reflects system demand, not just CPU usage.
-🧠 Load — node_load1, node_load5
-❓ Why does load exist even when CPU is idle?
-Load average counts:
+- Key understanding:
+  - Load reflects system demand, not just CPU usage.
+- 🧠 Load — node_load1, node_load5
+- ❓ Why does load exist even when CPU is idle?
+- Load average counts:
 Processes running
 Processes waiting (blocked)
 CPU idle does NOT mean:
