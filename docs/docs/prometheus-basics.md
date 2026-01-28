@@ -104,7 +104,7 @@ Processes are stuck in uninterruptible sleep
 - Makes gradual performance degradation visible.
 ### Correlations
 - Allows comparison of multiple metrics on the same timeline.
-Example: rising load alongside increasing disk I/O wait.
+  - Example: rising load alongside increasing disk I/O wait.
 ### Historical Context
 - Enables investigation of past incidents.
 - Supports root cause analysis using historical data.
