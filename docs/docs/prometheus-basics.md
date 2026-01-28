@@ -110,7 +110,7 @@ Enables investigation of past incidents.
 Supports root cause analysis using historical data.
 
 ## What Prometheus Cannot Tell Me
-Exact Root Cause
+###Exact Root Cause
 Prometheus shows what changed, not why it changed.
 Further investigation using logs, traces, or system-level debugging is required.
 Business Impact
@@ -126,4 +126,4 @@ Human analysis and domain knowledge are required.
 ## Summary
 This setup demonstrates how Prometheus and node_exporter provide deep visibility into system behavior through time-series metrics, while also highlighting the importance of combining monitoring data with logs, traces, and contextual knowledge for effective troubleshooting.
 
-“Prometheus metrics are mostly counters; meaningful values like CPU percentage are derived using rates over time. Linux memory appears ‘used’ due to caching, which is healthy, and load average reflects system demand, not just CPU utilization.”
+“Prometheus metrics are mostly counters which only goes up and resets only on restart; meaningful values like CPU percentage are derived using rates over time. Linux memory appears ‘used’ due to caching, which is healthy, and load average reflects system demand, not just CPU utilization.”
