@@ -74,10 +74,10 @@ Likely indicates blocked I/O or excessive runnable processes
 - util: Percentage of time disk is busy
 - iowait: CPU waiting on disk I/O
 ### How to Think About Disk Problems
--High disk usage ≠ problem
--High disk latency = problem
--A disk at 90% utilization with low latency can be fine.
--A disk at 30% utilization with high latency is a serious issue.
+- High disk usage ≠ problem.
+- High disk latency = problem.
+- A disk at 90% utilization with low latency can be fine.
+- A disk at 30% utilization with high latency is a serious issue.
 
 ## Process Metrics
 ### Key Commands
@@ -115,6 +115,15 @@ Metrics provide signals, not answers.
 - I/O wait is one of the most misleading metrics
 - Linux aggressively uses memory for cache
 - Load average must always be read with CPU core count
+
+## Observation on my VM
+- CPU usage mostly idle (~95–99%)
+- Load average well below number of available CPU cores
+- Memory shows high cache usage with minimal swap activity
+- No iowait observed, indicating no disk bottlenecks
+- Run queue remains low, indicating no CPU contention
+- No steal time, confirming no hypervisor CPU pressure
+- System remains stable and responsive under idle conditions
 
 
 
