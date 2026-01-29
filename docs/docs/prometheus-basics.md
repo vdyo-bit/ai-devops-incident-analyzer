@@ -10,32 +10,32 @@ Flow:
 Linux Kernel → node_exporter → /metrics endpoint → Prometheus
 
 ## Key Metrics Observed
-CPU Metrics
+### CPU Metrics
 - node_cpu_seconds_total
   - A cumulative counter representing total CPU time spent in different modes (user, system, idle, iowait, etc.).
 - Key understanding:
   - CPU usage percentages are derived, not stored, by calculating the rate of change of this counter over time.
-- 🧠 CPU — node_cpu_seconds_total
-  - ❓ Why is this counter increasing?
-        It is a counter that tracks total CPU time spent in different modes:
-        user
-        system
-        idle
-        iowait etc.
-As long as the system is running, CPU time always accumulates
-It never resets (except reboot)
-👉 Even an idle CPU is still accumulating idle time.
-❓ How do tools derive CPU percentages from it?
-Prometheus calculates the rate of change over time
-CPU % is derived using:
-rate(node_cpu_seconds_total[5m])
-The rate tells:
-“How much CPU time was spent per second during this window”
-Percentages are then calculated by:
-Grouping by CPU mode
-Dividing by total CPU time
-Converting to %
-👉 CPU % is not stored — it is calculated
+### 🧠 CPU — node_cpu_seconds_total
+- ❓ Why is this counter increasing?
+- It is a counter that tracks total CPU time spent in different modes:
+  - user
+  - system
+  - idle
+  - iowait etc.
+- As long as the system is running, CPU time always accumulates
+- It never resets (except reboot)
+- 👉 Even an idle CPU is still accumulating idle time.
+- ❓ How do tools derive CPU percentages from it?
+- Prometheus calculates the rate of change over time
+- CPU % is derived using:
+  - rate(node_cpu_seconds_total[5m])
+- The rate tells:
+  - “How much CPU time was spent per second during this window”
+- Percentages are then calculated by:
+  - Grouping by CPU mode
+  - Dividing by total CPU time
+  - Converting to %
+- 👉 CPU % is not stored — it is calculated
 
 Memory Metrics
 node_memory_MemAvailable_bytes
