@@ -38,25 +38,25 @@ Linux Kernel → node_exporter → /metrics endpoint → Prometheus
 - 👉 CPU % is not stored — it is calculated
 
 ### Memory Metrics
-- node_memory_MemAvailable_bytes
+#### node_memory_MemAvailable_bytes
  Memory that can be allocated immediately without swapping.
-- node_memory_MemFree_bytes
+#### node_memory_MemFree_bytes
  Memory that is completely unused.
 #### Key understanding:
  Low free memory is normal on Linux due to aggressive caching; available memory is the meaningful indicator.
-Memory — node_memory_MemAvailable_bytes vs MemFree
-❓ Why does “free” memory look scary but isn’t?
-Linux aggressively uses RAM for:
+### 🧠Memory — node_memory_MemAvailable_bytes vs MemFree
+#### ❓ Why does “free” memory look scary but isn’t?
+ Linux aggressively uses RAM for:
 Page cache
 Buffers
 This memory is reclaimable
 So:
-MemFree = memory doing literally nothing
-MemAvailable = memory that can be used immediately
+- MemFree = memory doing literally nothing
+- MemAvailable = memory that can be used immediately
 👉 Low MemFree is normal and healthy
-What matters:
-MemAvailable
-Swap activity (si/so)
+* What matters:
+- MemAvailable
+- Swap activity (si/so)
 
 ### Disk Metrics
 - node_disk_io_time_seconds_total
