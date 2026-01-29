@@ -37,13 +37,13 @@ Linux Kernel → node_exporter → /metrics endpoint → Prometheus
   - Converting to %
 - 👉 CPU % is not stored — it is calculated
 
-Memory Metrics
-node_memory_MemAvailable_bytes
-Memory that can be allocated immediately without swapping.
-node_memory_MemFree_bytes
-Memory that is completely unused.
-Key understanding:
-Low free memory is normal on Linux due to aggressive caching; available memory is the meaningful indicator.
+### Memory Metrics
+- node_memory_MemAvailable_bytes
+ Memory that can be allocated immediately without swapping.
+- node_memory_MemFree_bytes
+ Memory that is completely unused.
+#### Key understanding:
+ Low free memory is normal on Linux due to aggressive caching; available memory is the meaningful indicator.
 Memory — node_memory_MemAvailable_bytes vs MemFree
 ❓ Why does “free” memory look scary but isn’t?
 Linux aggressively uses RAM for:
@@ -58,27 +58,27 @@ What matters:
 MemAvailable
 Swap activity (si/so)
 
-Disk Metrics
-node_disk_io_time_seconds_total
-Total time the disk spent servicing I/O requests.
-node_disk_read_time_seconds_total
-Time spent processing disk read operations.
-Key understanding:
-These metrics represent disk busy time, not throughput or latency.
-🧠 Disk — node_disk_io_time_seconds_total
-❓ What does “time spent doing I/O” really mean?
-Measures how long the disk was busy
-Not how much data was transferred
-Not how fast it was
-Includes time when:
-Requests were queued
-Disk was servicing reads/writes
-High value means:
-Disk is busy, not necessarily slow
-👉 It reflects disk saturation, not throughput
-node_disk_read_time_seconds_total
-Time spent servicing read requests
-High value = many reads or slow reads
+### Disk Metrics
+- node_disk_io_time_seconds_total
+ Total time the disk spent servicing I/O requests.
+- node_disk_read_time_seconds_total
+ Time spent processing disk read operations.
+#### Key understanding:
+ These metrics represent disk busy time, not throughput or latency.
+#### 🧠 Disk — node_disk_io_time_seconds_total
+ ❓ What does “time spent doing I/O” really mean?
+- Measures how long the disk was busy
+- Not how much data was transferred
+- Not how fast it was
+ Includes time when:
+- Requests were queued
+- Disk was servicing reads/writes
+ High value means:
+- Disk is busy, not necessarily slow
+ 👉 It reflects disk saturation, not throughput
+#### node_disk_read_time_seconds_total
+- Time spent servicing read requests
+- High value = many reads or slow reads
 
 ### Load Metrics
 - node_load1, node_load5 -
