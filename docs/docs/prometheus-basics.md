@@ -16,8 +16,8 @@ Linux Kernel → node_exporter → /metrics endpoint → Prometheus
 - Key understanding:
   - CPU usage percentages are derived, not stored, by calculating the rate of change of this counter over time.
 ### 🧠 CPU — node_cpu_seconds_total
-- ❓ Why is this counter increasing?
-- It is a counter that tracks total CPU time spent in different modes:
+#### ❓ Why is this counter increasing?
+. It is a counter that tracks total CPU time spent in different modes:
   - user
   - system
   - idle
@@ -25,7 +25,7 @@ Linux Kernel → node_exporter → /metrics endpoint → Prometheus
 - As long as the system is running, CPU time always accumulates
 - It never resets (except reboot)
 - 👉 Even an idle CPU is still accumulating idle time.
-- ❓ How do tools derive CPU percentages from it?
+#### ❓ How do tools derive CPU percentages from it?
 - Prometheus calculates the rate of change over time
 - CPU % is derived using:
   - rate(node_cpu_seconds_total[5m])
