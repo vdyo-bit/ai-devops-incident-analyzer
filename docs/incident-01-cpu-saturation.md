@@ -95,13 +95,13 @@ The root cause was intentional CPU saturation caused by running multiple CPU-bou
 - Disk metrics are essential to eliminate false assumptions
 - Observing what does not change is often the fastest diagnostic shortcut
 
-## Final Review: What an Engineer Could Misread
-### | Misleading Conclusion   |    Why It’s Wrong  |
+## Final Review: What an Engineer Could Misread  
+| Misleading Conclusion   |    Why It’s Wrong  |
 | :--- | ---: |
-|“Disk caused the issue”  |   Disk I/O remained low   |
-|“Memory leak exists”     |   Memory recovered post-load | 
-|“System was unstable”    |   Exporter stayed UP  |
-|“Load = CPU usage”       |   Load includes waiting tasks |
+| “Disk caused the issue”  |   Disk I/O remained low   |
+| “Memory leak exists”     |   Memory recovered post-load | 
+| “System was unstable”    |   Exporter stayed UP  |
+| “Load = CPU usage”       |   Load includes waiting tasks |
 
 ## Final Takeaway
 This dashboard correctly identified CPU saturation as the sole bottleneck while preventing misdiagnosis by correlating CPU, load, memory, disk, and exporter health.  
