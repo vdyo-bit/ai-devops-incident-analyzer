@@ -16,8 +16,8 @@ Its goal is situational awareness, not deep root-cause analysis.
 - Shows how much CPU capacity is available
 - Helps identify sustained CPU pressure vs idle headroom
 #### What it tells me:
--High idle → CPU not a bottleneck
--Sudden drops → CPU-bound workload or contention
+- High idle → CPU not a bottleneck
+- Sudden drops → CPU-bound workload or contention
 
 ### Memory Available
 #### Why it exists:
