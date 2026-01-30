@@ -1,24 +1,24 @@
 
-## What to Observe (VERY important)
+## What to Observe?
 ### What changed first
 - CPU Idle % dropped sharply to ~0%
 - This happened before load average peaked
 - Indicates CPU capacity was exhausted immediately
 #### CPU was the first bottleneck, not disk or memory.
 
-### What lagged
+### What lagged?
 - Load Average (1m) continued to rise even after CPU was saturated
 - After CPU load stopped, load average decayed slowly
 - Memory available recovered more gradually
 #### Load is an averaged signal, not instantaneous.
 
-### What looked scary but wasn’t
+### What looked scary but wasn’t?
 - Load average exceeded CPU core count (~2–3)
 - Memory Available dipped sharply
 - Disk I/O Time showed spikes
 #### All of these were secondary effects, not root causes.
 
-### What did NOT change (key signal)
+### What did NOT change(key signal)?
 - Node Exporter stayed UP (constant 1)
 - Disk I/O Time remained low relative to saturation
 - No swap activity
