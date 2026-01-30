@@ -1,12 +1,12 @@
 ## Purpose
-The purpose of this setup is to understand how node-level system metrics are collected, exposed, and visualized using node_exporter and Prometheus.
+The purpose of this setup is to understand how node-level system metrics are collected, exposed, and visualized using node_exporter and Prometheus.  
 It demonstrates how low-level operating system statistics (CPU, memory, disk, load) are converted into time-series metrics that can be queried, analyzed, and correlated over time.
 
 ## Architecture
-Prometheus follows a pull-based model.
-The node_exporter runs on the VM and exposes system metrics over an HTTP endpoint (/metrics on port 9100).
-Prometheus periodically scrapes this endpoint at a configured interval and stores the collected metrics in its time-series database.
-Flow:
+Prometheus follows a pull-based model.  
+The node_exporter runs on the VM and exposes system metrics over an HTTP endpoint (/metrics on port 9100).  
+Prometheus periodically scrapes this endpoint at a configured interval and stores the collected metrics in its time-series database.  
+Flow:  
 Linux Kernel → node_exporter → /metrics endpoint → Prometheus
 
 ## Key Metrics Observed
@@ -125,6 +125,5 @@ Load reflects system demand, not just CPU usage.
 - Human analysis and domain knowledge are required.
 
 ## Summary
-This setup demonstrates how Prometheus and node_exporter provide deep visibility into system behavior through time-series metrics, while also highlighting the importance of combining monitoring data with logs, traces, and contextual knowledge for effective troubleshooting.
-
+This setup demonstrates how Prometheus and node_exporter provide deep visibility into system behavior through time-series metrics, while also highlighting the importance of combining monitoring data with logs, traces, and contextual knowledge for effective troubleshooting.  
 “Prometheus metrics are mostly counters which only goes up and resets only on restart; meaningful values like CPU percentage are derived using rates over time. Linux memory appears ‘used’ due to caching, which is healthy, and load average reflects system demand, not just CPU utilization.”
