@@ -1,5 +1,7 @@
 ## Purpose
 The dashboard provides a high-level health view of a single Linux VM by visualizing core node-level signals: CPU availability, memory pressure, disk activity, system load, and exporter availability.
+
+
 Its goal is situational awareness, not deep root-cause analysis.
 
 ## Purpose of Each Panel
@@ -41,4 +43,4 @@ Its goal is situational awareness, not deep root-cause analysis.
 - Captures runnable and blocked processes
 #### What it tells me:
 - Load rising with CPU idle → I/O wait or blocking
--Load rising with low idle → CPU contention
+- Load rising with low idle → CPU contention
