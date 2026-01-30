@@ -97,7 +97,7 @@ The root cause was intentional CPU saturation caused by running multiple CPU-bou
 
 ## Final Review: What an Engineer Could Misread  
 | Misleading Conclusion   |    Why It’s Wrong  |
-| :--- | ---: |
+| :--- | :--- |
 | “Disk caused the issue”  |   Disk I/O remained low   |
 | “Memory leak exists”     |   Memory recovered post-load | 
 | “System was unstable”    |   Exporter stayed UP  |
