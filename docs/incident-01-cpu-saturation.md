@@ -105,4 +105,7 @@ The root cause was intentional CPU saturation caused by running multiple CPU-bou
 
 ## Final Takeaway
 This dashboard correctly identified CPU saturation as the sole bottleneck while preventing misdiagnosis by correlating CPU, load, memory, disk, and exporter health.  
-This incident demonstrates how correlating multiple node-level metrics prevents false root cause attribution during CPU saturation events.
+This incident demonstrates how correlating multiple node-level metrics prevents false root cause attribution during CPU saturation events.  
+
+## Final, Balanced Conclusion**(AI)**
+Based on the observed metrics, the most likely root cause is sustained CPU saturation from a CPU-bound workload. However, without examining CPU mode breakdown and kernel-level activity, it is not possible to conclusively rule out kernel or scheduler-related causes. The current dashboard correctly identifies the bottleneck but does not fully explain the underlying trigger.
