@@ -13,3 +13,10 @@ an AI-assisted diagnosis system.
 - Metrics & logs
 - Failure analysis
 - Safe AI usage
+
+## AI Safety & Reliability Principles
+- AI is used only for analysis, never for remediation
+- AI outputs are advisory, not authoritative
+- Uncertainty is explicitly allowed and documented
+- Final decisions are made using first-principles reasoning
+
