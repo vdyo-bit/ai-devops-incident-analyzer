@@ -23,5 +23,5 @@ Based on the dashboard data, I concluded that the incident was caused by CPU sat
 - These points required human judgment to correct and re-scope the conclusion.
 
 ## Final Takeaway
-AI was effective at pattern recognition and consistency checking, but human judgment was required to challenge assumptions, recognize evidence gaps, and avoid overconfident conclusions. In future incidents, I would use AI to validate hypotheses and surface blind spots, while relying on human reasoning to determine when the data is insufficient and when deeper investigation is required. 
+AI was effective at pattern recognition and consistency checking, but human judgment was required to challenge assumptions, recognize evidence gaps, and avoid overconfident conclusions. In future incidents, I would use AI to validate hypotheses and surface blind spots, while relying on human reasoning to determine when the data is insufficient and when deeper investigation is required.  
 AI accelerates analysis, but disciplined engineering judgment determines whether conclusions are correct.
