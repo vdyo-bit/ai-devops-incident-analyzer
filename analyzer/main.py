@@ -1,6 +1,6 @@
 import json
-from prometheus_client import analyze_metrics
-from prompt_builder import build_report
+from .prometheus_client import analyze_metrics
+from .prompt_builder import build_report
 
 def main():
     with open("sample_input.json", "r") as f:
@@ -13,5 +13,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
