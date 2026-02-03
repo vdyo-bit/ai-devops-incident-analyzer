@@ -1,17 +1,17 @@
-# main.py
-from analyzer import prometheus_client
-from analyzer import prompt_builder
 import json
+from prometheus_client import analyze_metrics
+from prompt_builder import build_report
 
 def main():
-    with open("sample_input.json") as f:
+    with open("sample_input.json", "r") as f:
         metrics = json.load(f)
 
-    analysis = prometheus_client.analyze(metrics)
-
-    report = prompt_builder.build_report(analysis)
+    analysis = analyze_metrics(metrics)
+    report = build_report(analysis)
 
     print(report)
 
 if __name__ == "__main__":
     main()
+
+
