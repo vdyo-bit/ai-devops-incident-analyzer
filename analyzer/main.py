@@ -1,9 +1,14 @@
 import json
+from pathlib import Path
+
 from .prometheus_client import analyze_metrics
 from .prompt_builder import build_report
 
 def main():
-    with open("sample_input.json", "r") as f:
+    base_dir = Path(__file__).parent
+    input_file = base_dir / "sample_input.json"
+
+    with open(input_file, "r") as f:
         metrics = json.load(f)
 
     analysis = analyze_metrics(metrics)
@@ -13,6 +18,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 
