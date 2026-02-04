@@ -46,4 +46,53 @@ You are an SRE reviewing an incident.
 - Workload type: Monitoring stack
 
 ### INCIDENT SUMMARY
+An incident was observed where system behavior deviated from normal operation during a defined time window. 
+The goal is to analyze provided metrics and logs without assumptions.
 
+### OBSERVED METRICS (Summarized)
+- CPU usage: Idle ~65%, no sustained CPU saturation
+- Memory usage: Stable, no swapping observed
+- Disk I/O: %util sustained near 95%, await increased significantly
+- Network: No packet loss or saturation observed
+- Error rates: Application error rate increased from baseline
+
+### OBSERVED LOGS
+- prometheus: TSDB write latency increased
+- systemd: Service restart observed
+
+### QUESTIONS
+- What are the most likely root causes?
+- What is your confidence level and why?
+- What data is missing to confirm the root cause?
+- What should be checked next, in priority order?
+
+### OUTPUT FORMAT
+- Bullet points only
+- No speculation
+- Clear reasoning per point
+
+### Example Usage
+- This prompt design is used for:
+- Post-incident analysis (RCA)
+- Performance bottleneck investigation
+- Infrastructure anomaly triage
+- AI-assisted learning without operational risk
+
+### What This Prompt Explicitly Avoids
+- Blind root-cause guessing
+- One-size-fits-all troubleshooting
+- Overconfident recommendations
+- AI-driven production changes
+
+### Human-in-the-Loop Guarantee
+All AI-generated analysis:
+- Must be reviewed by an engineer
+- Is advisory only
+- Does not trigger automated actions
+
+### Summary
+Structured prompt design transforms AI from:  
+“Answer generator”  
+into:  
+“Evidence-driven reasoning assistant”  
+This approach enables safe, reliable AI integration into DevOps and SRE workflows.
