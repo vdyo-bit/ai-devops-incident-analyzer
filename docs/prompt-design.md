@@ -57,7 +57,6 @@ The goal is to analyze provided metrics and logs without assumptions.
 - Error rates: Application error rate increased from baseline
 
 ### OBSERVED LOGS
-- prometheus: TSDB write latency increased
 - systemd: Service restart observed
 
 ### QUESTIONS
