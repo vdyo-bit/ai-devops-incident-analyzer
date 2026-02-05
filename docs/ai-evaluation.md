@@ -128,8 +128,7 @@ Overall AI output status: Advisory only.
 
 ## Summary
 
-This framework ensures AI-generated analysis is transparent, bounded by evidence, and safely integrated into operational workflows.
-
+This framework ensures AI-generated analysis is transparent, bounded by evidence, and safely integrated into operational workflows.  
 AI is treated as a reasoning assistant, not an authority.
 
 ---
