@@ -1,0 +1,34 @@
+{
+"incident_name": "ImagePullBackOff",
+
+"timestamp": "2026-06-04T15:42:35+0530",
+
+"kubernetes_context": {
+"cluster": "kind-ai-analyzer",
+"namespace": "default",
+"deployment": "broken-nginx",
+"pod": "broken-nginx-5d9dbf5699-jkf4v",
+"status": "ImagePullBackOff",
+"node": "ai-analyzer-control-plane"
+},
+
+"events": [
+"Failed to pull image doesnotexist123/nginx:latest",
+"Pull access denied",
+"Repository does not exist",
+"ErrImagePull",
+"ImagePullBackOff",
+"Back-off pulling image"
+],
+
+"logs": [
+"Failed to resolve image reference",
+"Image unavailable in registry"
+],
+
+"human_analysis": {
+"suspected_root_cause": "Invalid container image reference",
+"confidence": "High"
+}
+}
+
