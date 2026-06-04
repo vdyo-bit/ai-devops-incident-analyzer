@@ -1,6 +1,8 @@
-def build_prompt():
+def build_prompt(incident):
 
-    return """
+    logs = "\n".join(incident["logs"])
+
+    return f"""
 ROLE:
 You are an SRE reviewing an incident.
 
@@ -11,27 +13,35 @@ CONSTRAINTS:
 - Rank possible causes if needed
 
 SYSTEM CONTEXT:
-Ubuntu VM, 2 CPU cores, 4GB RAM
+OS: {incident['system_context']['os']}
+CPU Cores: {incident['system_context']['cpu_cores']}
+Memory: {incident['system_context']['memory_gb']} GB
 
-INCIDENT SUMMARY:
-Controlled test incident caused degraded responsiveness.
+INCIDENT:
+{incident['incident_name']}
 
 OBSERVED METRICS:
-- CPU idle ~65%
-- Disk utilization near 95%
-- Elevated I/O wait
+CPU Usage: {incident['metrics'].get('cpu_usage', 'N/A')}
+Load Average: {incident['metrics'].get('load_average', 'N/A')}
+Memory: {incident['metrics'].get('memory', incident['metrics'].get('memory_available', 'N/A'))}
+Swap: {incident['metrics'].get('swap', incident['metrics'].get('swap_usage', 'N/A'))}
+Disk: {incident['metrics'].get('disk', incident['metrics'].get('disk_iowait', 'N/A'))}
 
 OBSERVED LOGS:
-systemd: service restart observed
+{logs}
 
 QUESTIONS:
-1. Most likely root causes
-2. Confidence level
-3. Missing data
-4. What to check next
+1. What are the most likely root causes?
+2. What is your confidence level (Low / Medium / High)?
+3. What data is missing?
+4. What should an engineer investigate next?
 
 OUTPUT FORMAT:
-- Bullet points
-- Evidence-driven reasoning
-- No speculation
+- Root Cause(s)
+- Confidence
+- Missing Data
+- Next Investigation Steps
+
+Do not provide remediation commands.
+Do not speculate beyond available evidence.
 """

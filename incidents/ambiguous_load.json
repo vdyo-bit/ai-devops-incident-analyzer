@@ -1,0 +1,25 @@
+{
+  "incident_name": "Ambiguous Load",
+
+  "system_context": {
+    "os": "Ubuntu 22.04",
+    "cpu_cores": 2,
+    "memory_gb": 4
+  },
+
+  "metrics": {
+    "cpu_usage": "25%",
+    "load_average": "5.5",
+    "memory": "stable",
+    "disk_iowait": "high"
+  },
+
+  "logs": [
+    "Disk response times increasing"
+  ],
+
+  "human_analysis": {
+    "suspected_root_cause": "Possible I/O bottleneck",
+    "confidence": "Medium"
+  }
+}

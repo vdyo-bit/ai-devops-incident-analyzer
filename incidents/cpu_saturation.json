@@ -1,0 +1,27 @@
+{
+  "incident_name": "CPU Saturation",
+  "timestamp": "2025-06-15T10:30:00",
+
+  "system_context": {
+    "os": "Ubuntu 22.04",
+    "cpu_cores": 2,
+    "memory_gb": 4
+  },
+
+  "metrics": {
+    "cpu_usage": "95% user",
+    "load_average": "4.2",
+    "memory": "stable",
+    "swap": "0",
+    "disk": "normal"
+  },
+
+  "logs": [
+    "No kernel errors detected"
+  ],
+
+  "human_analysis": {
+    "suspected_root_cause": "CPU-intensive workload",
+    "confidence": "High"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "incident_name": "Memory Pressure",
+
+  "system_context": {
+    "os": "Ubuntu 22.04",
+    "cpu_cores": 2,
+    "memory_gb": 4
+  },
+
+  "metrics": {
+    "cpu_usage": "20%",
+    "load_average": "1.0",
+    "memory_available": "200 MB",
+    "swap_usage": "1 GB",
+    "disk": "normal"
+  },
+
+  "logs": [
+    "OOM Killer invoked"
+  ],
+
+  "human_analysis": {
+    "suspected_root_cause": "Memory exhaustion",
+    "confidence": "Medium"
+  }
+}
