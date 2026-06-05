@@ -1,0 +1,30 @@
+{
+"incident_name": "CrashLoopBackOff",
+
+"timestamp": "2026-06-05T11:15:49+0530",
+
+"kubernetes_context": {
+"cluster": "kind-ai-analyzer",
+"namespace": "default",
+"deployment": "crash-demo",
+"pod": "crash-demo-5d4b784975-nd7b7",
+"status": "CrashLoopBackOff",
+"node": "ai-analyzer-control-plane"
+},
+
+"events": [
+"Container started",
+"Container exited with code 1",
+"Back-off restarting failed container"
+],
+
+"logs": [
+"Application terminated immediately after startup"
+],
+
+"human_analysis": {
+"suspected_root_cause": "Application startup failure",
+"confidence": "High"
+}
+}
+
