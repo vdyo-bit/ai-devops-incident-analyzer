@@ -1,0 +1,36 @@
+{
+  "incident_name": "OOMKilled",
+
+  "timestamp": "2026-06-05T12:03:29+0530",
+
+  "kubernetes_context": {
+    "cluster": "kind-ai-analyzer",
+    "namespace": "default",
+    "deployment": "oom-demo",
+    "pod": "oom-demo-7fc5d9f55-7dmx2",
+    "status": "OOMKilled",
+    "node": "ai-analyzer-control-plane"
+  },
+
+  "resource_limits": {
+    "memory_request": "32Mi",
+    "memory_limit": "64Mi",
+    "memory_requested_by_application": "128M"
+  },
+
+  "events": [
+    "Container started",
+    "Container exceeded memory limit",
+    "OOMKilled",
+    "Back-off restarting failed container"
+  ],
+
+  "logs": [
+    "Memory allocation exceeded configured container limit"
+  ],
+
+  "human_analysis": {
+    "suspected_root_cause": "Container memory limit too low for workload",
+    "confidence": "High"
+  }
+}
