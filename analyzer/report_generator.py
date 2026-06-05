@@ -1,29 +1,52 @@
-def build_report(analysis):
-    lines = []
+from datetime import datetime
 
-    if analysis["cpu_saturated"]:
-        lines.append("CPU saturation detected (CPU idle dropped below 5%).")
-    else:
-        lines.append("No CPU saturation detected.")
 
-    if analysis["load_high"]:
-        lines.append("Load average exceeded available CPU cores.")
-    else:
-        lines.append("Load average remained within CPU capacity.")
+def build_report(
+    incident,
+    classification,
+    validation,
+    safety,
+    ai_response
+):
 
-    if analysis["memory_pressure"]:
-        lines.append("Memory pressure observed (low available memory).")
-    else:
-        lines.append("Memory pressure not observed.")
+    report = f"""
+==================================================
+AI DEVOPS INCIDENT REPORT
+==================================================
 
-    if analysis["disk_pressure"]:
-        lines.append("Disk I/O pressure observed.")
-    else:
-        lines.append("Disk I/O was not a bottleneck.")
+Timestamp:
+{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
-    if analysis["monitoring_available"]:
-        lines.append("Monitoring remained available throughout the incident.")
-    else:
-        lines.append("Monitoring availability was impacted.")
+Pod:
+{incident.get("pod_name", "Unknown")}
 
-    return "\n".join(lines)
+Namespace:
+{incident.get("namespace", "Unknown")}
+
+Incident Type:
+{classification.get("incident_type", "Unknown")}
+
+Classifier Confidence:
+{classification.get("confidence", "Unknown")}
+
+Classification Reason:
+{classification.get("reason", "Unknown")}
+
+Validator Status:
+{"PASS" if validation["valid"] else "FAIL"}
+
+Guardrails Status:
+{"PASS" if safety["safe"] else "FAIL"}
+
+==================================================
+AI ANALYSIS
+==================================================
+
+{ai_response}
+
+==================================================
+END OF REPORT
+==================================================
+"""
+
+    return report
