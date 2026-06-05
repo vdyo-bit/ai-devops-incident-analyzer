@@ -1,10 +1,12 @@
 def build_prompt(incident):
 
-    logs = "\n".join(incident.get("logs", []))
+    logs = "\n".join(incident.get("logs", [])) \
+        if isinstance(incident.get("logs"), list) \
+        else incident.get("logs", "")
 
-    # -----------------------------
+    #
     # Linux Incident
-    # -----------------------------
+    #
     if "system_context" in incident:
 
         return f"""
@@ -37,7 +39,7 @@ OBSERVED LOGS:
 
 QUESTIONS:
 1. What are the most likely root causes?
-2. What is your confidence level (Low / Medium / High)?
+2. What is your confidence level?
 3. What data is missing?
 4. What should an engineer investigate next?
 
@@ -56,9 +58,9 @@ Next Investigation:
 ...
 """
 
-    # -----------------------------
-    # Kubernetes Incident
-    # -----------------------------
+    #
+    # Kubernetes Incident Library
+    #
     elif "kubernetes_context" in incident:
 
         events = "\n".join(incident.get("events", []))
@@ -126,9 +128,69 @@ Next Investigation:
 ...
 """
 
-    # -----------------------------
-    # Unknown Incident Type
-    # -----------------------------
+    #
+    # Live Kubernetes Incident
+    #
+    elif incident.get("source") == "kubernetes":
+
+        return f"""
+ROLE:
+You are an SRE reviewing a live Kubernetes incident.
+
+CONSTRAINTS:
+- Use only provided evidence
+- Separate root cause from symptoms
+- Do not invent missing information
+- Explain reasoning
+
+POD:
+{incident.get('pod_name', 'N/A')}
+
+NAMESPACE:
+{incident.get('namespace', 'N/A')}
+
+CURRENT REASON:
+{incident.get('current_reason', 'N/A')}
+
+LAST REASON:
+{incident.get('last_reason', 'N/A')}
+
+EXIT CODE:
+{incident.get('exit_code', 'N/A')}
+
+RESTART COUNT:
+{incident.get('restart_count', 'N/A')}
+
+CONTAINER LOGS:
+{logs}
+
+QUESTIONS:
+1. What is the likely root cause?
+2. What evidence supports it?
+3. Is the current state a symptom or root cause?
+4. What remediation should be considered?
+
+OUTPUT FORMAT:
+
+Root Cause:
+...
+
+Confidence:
+...
+
+Evidence:
+...
+
+Missing Data:
+...
+
+Next Investigation:
+...
+"""
+
+    #
+    # Unknown
+    #
     else:
 
         return f"""
@@ -138,6 +200,7 @@ You are an SRE.
 The incident format is unknown.
 
 Incident Data:
+
 {incident}
 
 Please identify:
