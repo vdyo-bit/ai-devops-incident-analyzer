@@ -1,111 +1,324 @@
+# Grafana Design Decisions
+
 ## Purpose
-The dashboard provides a high-level health view of a single Linux VM by visualizing core node-level signals: CPU availability, memory pressure, disk activity, system load, and exporter availability.  
-Its goal is situational awareness, not deep root-cause analysis.
+
+Grafana was introduced to provide visibility into node-level Linux metrics and to support understanding of system behavior before building AI-assisted incident analysis.
+
+The dashboard serves as the observability layer of the project, while the AI DevOps Incident Analyzer provides incident investigation, classification, root-cause analysis, and report generation.
+
+The objective is to answer:
+
+> "What is happening on the system right now?"
+
+while the AI analyzer answers:
+
+> "Why might this be happening and what should be investigated next?"
+
+---
+
+## Dashboard Scope
+
+The dashboard provides a high-level health view of a Linux node by visualizing:
+
+* CPU availability
+* Memory pressure
+* Disk activity
+* System load
+* Monitoring availability
+
+Its goal is situational awareness, not root-cause determination.
+
+---
+
+## Architecture Position
+
+```text
+Linux System
+      |
+      v
+Node Exporter
+      |
+      v
+Prometheus
+      |
+      v
+Grafana Dashboard
+      |
+      +-----------------------+
+                              |
+                              v
+                 AI DevOps Incident Analyzer
+                              |
+                              v
+                  Incident Classification
+                              |
+                              v
+                    Gemini AI Analysis
+                              |
+                              v
+                     Incident Reports
+                              |
+                              v
+                      Flask Dashboard
+```
+
+Grafana provides monitoring visibility.
+
+The AI DevOps Incident Analyzer consumes operational evidence and produces investigation guidance.
+
+---
 
 ## Purpose of Each Panel
+
 ### Node Exporter Up
-#### Why it exists:
-- Confirms that monitoring itself is functioning
-- Distinguishes between “system is healthy” and “monitoring is broken”
-#### What it tells me:
-- 1 → exporter reachable
-- 0 → data gap, not necessarily system failure
+
+#### Why it exists
+
+Confirms that monitoring itself is functioning.
+
+#### What it tells me
+
+* 1 = exporter reachable
+* 0 = monitoring data unavailable
+
+This indicates monitoring health, not necessarily system health.
+
+---
 
 ### CPU Idle %
-#### Why it exists:
-- Shows how much CPU capacity is available
-- Helps identify sustained CPU pressure vs idle headroom
-#### What it tells me:
-- High idle → CPU not a bottleneck
-- Sudden drops → CPU-bound workload or contention
+
+#### Why it exists
+
+Shows how much CPU capacity remains available.
+
+#### What it tells me
+
+* High idle → CPU not saturated
+* Low idle → possible CPU contention
+
+Useful for identifying sustained CPU pressure.
+
+---
 
 ### Memory Available
-#### Why it exists:
-- Indicates real memory pressure
-- Avoids misleading “free memory” interpretation
-#### What it tells me:
-- Gradual decline → cache growth or workload increase
-- Sharp drops → possible memory spikes or leaks
+
+#### Why it exists
+
+Represents memory that can be allocated immediately without swapping.
+
+#### What it tells me
+
+* Gradual decline → workload growth or cache usage
+* Sharp decline → possible memory pressure
+
+More useful than raw free memory.
+
+---
 
 ### Disk I/O Time
-#### Why it exists:
-- Shows when the disk is busy, not just when data is transferred
-- Useful for correlating load spikes with I/O activity
-#### What it tells me:
-- Spikes → disk saturation periods
-- Near-zero → disk not a bottleneck
+
+#### Why it exists
+
+Shows when storage devices are actively servicing I/O requests.
+
+#### What it tells me
+
+* High values → busy disk subsystem
+* Low values → disk likely not a bottleneck
+
+Does not directly indicate latency.
+
+---
 
 ### Load Average (1m)
-#### Why it exists:
-- Represents system demand
-- Captures runnable and blocked processes
-#### What it tells me:
-- Load rising with CPU idle → I/O wait or blocking
-- Load rising with low idle → CPU contention
 
-## Dashboard Design Choices
-#### Why these panels were chosen
-- They represent orthogonal system resources:
-  - CPU
-  - Memory
-  - Disk
-  - Scheduling pressure
-- Each panel answers a different “is this a bottleneck?” question
-- Minimal set avoids noise and overfitting
-#### Why other panels were intentionally excluded
-- No per-process metrics → avoids early complexity
-- No network panels → not required for initial node health
-- No alerts → focus on understanding behavior, not reacting
+#### Why it exists
 
-## Common Misinterpretations (Very Important)
-❌ “CPU is healthy because idle is high”  
-- High CPU idle does not mean the system is fast  
-- Workloads may be blocked on disk or locks
+Represents overall system demand.
 
-❌ “Low memory available means we’re about to crash”  
-- Linux aggressively uses memory for cache  
-- Low available memory alone is not an emergency
+#### What it tells me
 
-❌ “Disk I/O time spike means disk is slow”  
-- It only shows the disk was busy  
-- Does not indicate latency or throughput
+* Load near CPU count → busy but healthy
+* Load significantly above CPU count → contention or blocking
 
-❌ “Load is low, so system is fine”  
-- Load average hides per-process pain  
-- A single critical process may still be stalled
+Useful for identifying saturation.
 
-## What This Dashboard Cannot Show (Blind Spots)
-❌ Exact Root Cause  
-- Cannot tell which process caused CPU or memory pressure  
-- Requires logs, tracing, or per-process metrics
+---
 
-❌ User or Business Impact  
-- No application-level latency or error rates  
-- No correlation to real user experience
+## Dashboard Design Decisions
 
-❌ Intent  
-Cannot distinguish:  
-- Expected batch job
-- Misconfiguration
-- Runaway process
+### Why These Panels Were Chosen
 
-❌ Short-lived spikes
-- Scrape intervals may miss very brief events
-- High-resolution debugging requires other tools
+The selected panels represent independent resource domains:
 
-## Review: Potentially Misleading Conclusions an Engineer Could Make
-#### Assuming CPU is the bottleneck because load increased
-- Load may be driven by I/O wait, not CPU usage
-#### Blaming disk for performance issues due to I/O time spikes
-- Could be normal background activity (e.g., journaling)
-#### Treating memory drops as leaks
-- Cache growth often looks like memory pressure
-#### Assuming monitoring gaps mean system downtime
-- Exporter or Prometheus restarts can cause false gaps
+* CPU
+* Memory
+* Disk
+* Scheduling pressure
+
+Together they provide a minimal but useful node health overview.
+
+### Why Additional Panels Were Excluded
+
+#### Per-process Metrics
+
+Excluded to avoid excessive complexity during the learning phase.
+
+#### Network Metrics
+
+Not required for initial incident-analysis experiments.
+
+#### Alerting
+
+The focus was understanding system behavior before building automated alert workflows.
+
+---
+
+## Common Misinterpretations
+
+### CPU Idle Is High, Therefore The System Is Healthy
+
+Incorrect.
+
+Processes may be blocked on:
+
+* Disk I/O
+* Locks
+* External dependencies
+
+CPU idle alone is insufficient.
+
+---
+
+### Memory Is Low, Therefore The System Is About To Crash
+
+Incorrect.
+
+Linux aggressively uses memory for caching.
+
+Available memory and swap activity are more meaningful indicators.
+
+---
+
+### Disk I/O Time Is High, Therefore The Disk Is Slow
+
+Incorrect.
+
+The metric indicates disk activity, not latency.
+
+Additional metrics are required to determine performance impact.
+
+---
+
+### Load Average Is Low, Therefore Everything Is Fine
+
+Incorrect.
+
+A critical process may still be failing despite low load.
+
+Load is only one signal.
+
+---
+
+## Dashboard Limitations
+
+### Exact Root Cause
+
+Grafana can indicate abnormal behavior but cannot explain why it occurred.
+
+Further investigation requires:
+
+* Logs
+* Application metrics
+* Incident analysis
+* Human reasoning
+
+---
+
+### Business Impact
+
+System metrics do not reveal:
+
+* User-facing latency
+* Revenue impact
+* Service-level degradation
+
+Application-level observability is required.
+
+---
+
+### Intent
+
+Metrics cannot distinguish between:
+
+* Expected workload
+* Misconfiguration
+* Runaway processes
+* Operational mistakes
+
+Human context remains essential.
+
+---
+
+### Short-Lived Events
+
+Brief spikes may occur between scrape intervals and remain invisible.
+
+Higher-resolution monitoring may be required.
+
+---
+
+## Relationship to AI Incident Analysis
+
+Grafana identifies symptoms.
+
+Examples:
+
+* CPU saturation
+* High load
+* Memory pressure
+* Disk activity
+
+The AI DevOps Incident Analyzer attempts to:
+
+* Classify incidents
+* Correlate available evidence
+* Identify likely root causes
+* Recommend investigation paths
+* Generate structured incident reports
+
+The two systems complement each other rather than replace each other.
+
+---
+
+## Evolution of the Project
+
+The project began as an observability learning exercise using:
+
+* Linux metrics
+* Node Exporter
+* Prometheus
+* Grafana
+
+It evolved into a broader incident-analysis platform featuring:
+
+* Linux incident classification
+* Kubernetes incident classification
+* AI-assisted root-cause analysis
+* Response validation
+* Safety guardrails
+* Historical report storage
+* Flask-based incident dashboard
+
+Grafana remains the monitoring foundation, while the AI DevOps Incident Analyzer provides investigation and reasoning capabilities.
+
+---
 
 ## Summary
-This dashboard is intentionally simple and conservative.  
-It answers the question:  
-  “Is this node generally healthy, and which resource deserves deeper investigation?”  
-It is a starting point, not a diagnostic endpoint.  
-#### This dashboard provides a minimal but effective node health overview while explicitly acknowledging its limitations and the need for deeper investigation tools.
+
+Grafana provides visibility into system behavior and resource utilization.
+
+The AI DevOps Incident Analyzer builds on top of this observability foundation by transforming operational signals into structured incident investigations and AI-assisted root-cause analysis.
+
+Together they form a practical workflow for learning observability, troubleshooting, and SRE-style incident response.
+

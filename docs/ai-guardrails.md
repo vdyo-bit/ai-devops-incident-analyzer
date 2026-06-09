@@ -32,4 +32,15 @@ Examples:
 - guaranteed
 - 100%
 
+## Additional Safety Controls
+
+- AI recommendations are advisory only
+- AI outputs are validated before report generation
+- Missing evidence must be explicitly reported
+- Confidence must be proportional to evidence quality
+
+## Human Review Requirement
+
+AI-generated conclusions must be reviewed by an engineer before operational decisions are made.
+
 The goal is to encourage probabilistic reasoning.
