@@ -32,39 +32,7 @@ Its goal is situational awareness, not root-cause determination.
 
 ## Architecture Position
 
-```text
-Linux System
-      |
-      v
-Node Exporter
-      |
-      v
-Prometheus
-      |
-      v
-Grafana Dashboard
-      |
-      +-----------------------+
-                              |
-                              v
-                 AI DevOps Incident Analyzer
-                              |
-                              v
-                  Incident Classification
-                              |
-                              v
-                    Gemini AI Analysis
-                              |
-                              v
-                     Incident Reports
-                              |
-                              v
-                      Flask Dashboard
-```
-
-Grafana provides monitoring visibility.
-
-The AI DevOps Incident Analyzer consumes operational evidence and produces investigation guidance.
+![Architecture Position](images/Grafana-ArchitecturePosition.png)
 
 ---
 

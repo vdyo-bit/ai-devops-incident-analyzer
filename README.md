@@ -57,41 +57,11 @@ The platform collects operational evidence, classifies incidents, generates AI-p
 
 ### Linux Workflow
 
-```text
-Metrics Collection
-        ↓
-Incident Detection
-        ↓
-Classification
-        ↓
-AI Analysis
-        ↓
-Validation
-        ↓
-Report Generation
-        ↓
-Dashboard
-```
+![Linux Workflow](docs/images/Linux-Workflow.png)
 
 ### Kubernetes Workflow
 
-```text
-Discover Failing Pods
-         ↓
-Collect Pod Evidence
-         ↓
-Parse Incident Data
-         ↓
-Classification
-         ↓
-AI Analysis
-         ↓
-Validation
-         ↓
-Report Generation
-         ↓
-Dashboard
-```
+![Kubernetes Workflow](docs/images/Kubernetes-Workflow.png)
 
 ---
 
