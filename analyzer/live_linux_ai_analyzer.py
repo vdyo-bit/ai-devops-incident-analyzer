@@ -1,7 +1,7 @@
 import os
 
 from google import genai
-
+from datetime import datetime
 from prometheus_client import analyze_metrics
 from incident_classifier import IncidentClassifier
 
@@ -112,8 +112,14 @@ def main():
         exist_ok=True
     )
 
+    from datetime import datetime
+
+    timestamp = datetime.now().strftime(
+        "%Y%m%d-%H%M%S"
+    )
+
     report_file = (
-        "reports/linux_report.txt"
+        f"reports/linux-{timestamp}.txt"
     )
 
     with open(report_file, "w") as f:

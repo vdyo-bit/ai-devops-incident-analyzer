@@ -7,71 +7,73 @@
 
 <style>
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    background: #f5f5f5;
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    margin:40px;
 }
 
-.header {
-    margin-bottom: 25px;
+h1{
+    margin-bottom:25px;
 }
 
-.actions {
-    margin-bottom: 25px;
+.actions{
+    margin-bottom:30px;
 }
 
-button {
-    padding: 10px 15px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+button{
+    padding:12px 18px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#1976d2;
+    color:white;
+    font-weight:bold;
 }
 
-.stats {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 25px;
+.stats{
+    background:white;
+    padding:25px;
+    border-radius:8px;
+    margin-bottom:30px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-.card {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+.card{
+    background:white;
+    padding:25px;
+    border-radius:8px;
+    margin-bottom:20px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-.title {
-    font-size: 20px;
-    font-weight: bold;
+.card-title{
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:10px;
 }
 
-.filename {
-    color: gray;
-    margin-top: 5px;
-    margin-bottom: 10px;
+.linux{
+    color:green;
 }
 
-.view-btn {
-    display: inline-block;
-    padding: 8px 12px;
-    background: #007acc;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
+.k8s{
+    color:red;
 }
 
-.badge-linux {
-    color: green;
-    font-weight: bold;
+.info{
+    color:#555;
+    margin-bottom:8px;
 }
 
-.badge-k8s {
-    color: red;
-    font-weight: bold;
+.view-btn{
+    display:inline-block;
+    margin-top:12px;
+    padding:10px 16px;
+    background:#1976d2;
+    color:white;
+    text-decoration:none;
+    border-radius:5px;
 }
 
 </style>
@@ -80,34 +82,28 @@ button {
 
 <body>
 
-<div class="header">
-
 <h1>AI DevOps Incident Analyzer</h1>
-
-</div>
 
 <div class="actions">
 
 <form
 style="display:inline;"
 action="/analyze-linux"
-method="post">
-
+method="post"
+>
 <button type="submit">
 Analyze Linux
 </button>
-
 </form>
 
 <form
 style="display:inline;"
 action="/analyze-k8s"
-method="post">
-
+method="post"
+>
 <button type="submit">
 Analyze Kubernetes Cluster
 </button>
-
 </form>
 
 </div>
@@ -130,27 +126,35 @@ Analyze Kubernetes Cluster
 
 <div class="card">
 
-<div class="title">
+<div class="card-title">
 
-{% if "linux" in report.lower() %}
-<span class="badge-linux">
-Linux Incident
-</span>
+{% if report.category == "Linux" %}
+<span class="linux">Linux Incident</span>
 {% else %}
-<span class="badge-k8s">
-Kubernetes Incident
-</span>
+<span class="k8s">Kubernetes Incident</span>
 {% endif %}
 
 </div>
 
-<div class="filename">
-{{ report }}
+<div class="info">
+Incident Type:
+<b>{{ report.incident_type }}</b>
+</div>
+
+<div class="info">
+Confidence:
+<b>{{ report.confidence }}</b>
+</div>
+
+<div class="info">
+File:
+{{ report.filename }}
 </div>
 
 <a
 class="view-btn"
-href="/report/{{ report }}">
+href="/report/{{ report.filename }}"
+>
 View Report
 </a>
 
@@ -159,5 +163,4 @@ View Report
 {% endfor %}
 
 </body>
-
 </html>

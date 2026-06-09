@@ -1,6 +1,7 @@
 import os
 
 from google import genai
+from datetime import datetime
 
 from k8s_discovery import get_failing_pods
 from k8s_collector import collect_pod_data
@@ -15,31 +16,11 @@ from ai_guardrails import check_guardrails
 from report_generator import build_report
 
 
-def main():
+def analyze_pod(namespace, pod_name):
 
-    namespace = "default"
-
-    failing_pods = get_failing_pods(namespace)
-
-    if not failing_pods:
-        print("No failing pods detected.")
-        return
-
-    print("\nDetected failing pods:\n")
-
-    for idx, pod in enumerate(
-        failing_pods,
-        start=1
-    ):
-        print(
-            f"{idx}. {pod['pod_name']} ({pod['status']})"
-        )
-
-    pod_name = failing_pods[0]["pod_name"]
-
-    print(
-        f"\nAutomatically analyzing: {pod_name}\n"
-    )
+    print("\n================================================")
+    print(f"Analyzing Pod: {pod_name}")
+    print("================================================\n")
 
     print("[1/7] Collecting Kubernetes evidence...\n")
 
@@ -114,27 +95,85 @@ def main():
         exist_ok=True
     )
 
+    timestamp = datetime.now().strftime(
+        "%Y%m%d-%H%M%S"
+    )
+
     report_file = (
-        f"reports/{incident['pod_name']}.txt"
+        f"reports/{pod_name}-{timestamp}.txt"
     )
 
     with open(
         report_file,
         "w"
     ) as f:
+
         f.write(report)
-
-    print("\n===== VALIDATION =====\n")
-    print(validation)
-
-    print("\n===== SAFETY =====\n")
-    print(safety)
-
-    print("\n===== INCIDENT REPORT =====\n")
-    print(report)
 
     print(
         f"\nReport saved to: {report_file}"
+    )
+
+
+def main():
+
+    namespace = "default"
+
+    failing_pods = get_failing_pods(
+        namespace
+    )
+
+    if not failing_pods:
+
+        print(
+            "No failing pods detected."
+        )
+
+        return
+
+    print("\nDetected failing pods:\n")
+
+    for idx, pod in enumerate(
+        failing_pods,
+        start=1
+    ):
+
+        print(
+            f"{idx}. "
+            f"{pod['pod_name']} "
+            f"({pod['status']})"
+        )
+
+    print(
+        f"\nFound "
+        f"{len(failing_pods)} "
+        f"failing pod(s).\n"
+    )
+
+    for pod in failing_pods:
+
+        try:
+
+            analyze_pod(
+                namespace,
+                pod["pod_name"]
+            )
+
+        except Exception as e:
+
+            print(
+                "\nERROR analyzing pod "
+                f"{pod['pod_name']}: {e}"
+            )
+
+    print(
+        "\n========================================"
+    )
+    print(
+        "Cluster analysis completed."
+    )
+    print(
+        "========================================\n"
     )
 
 

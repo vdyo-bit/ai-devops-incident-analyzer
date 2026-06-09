@@ -1,0 +1,58 @@
+
+==================================================
+AI DEVOPS INCIDENT REPORT
+==================================================
+
+Timestamp:
+2026-06-09 11:19:58
+
+Pod:
+Unknown
+
+Namespace:
+Unknown
+
+Incident Type:
+cpu_saturation
+
+Classifier Confidence:
+0.95
+
+Classification Reason:
+CPU idle percentage below threshold
+
+Validator Status:
+PASS
+
+Guardrails Status:
+PASS
+
+==================================================
+AI ANALYSIS
+==================================================
+
+Root Cause:
+The system is experiencing severe CPU contention and saturation. The most direct cause is one or more processes consuming a high amount of CPU cycles for computation. The load average of 6 on a 2-core system indicates significant CPU queueing. While 15% iowait is present, the overwhelming 98% CPU usage suggests the primary bottleneck is computation (user/system time), not I/O wait itself.
+
+A potential contributing factor could be memory pressure leading to increased CPU overhead (e.g., extensive paging/swapping), given the low available memory (300 MB), though specific swap activity is unknown.
+
+Confidence:
+High that the CPU is saturated due to active computation and resource contention. Medium-low regarding the specific underlying reason (e.g., application bug, unexpected workload increase, misconfiguration, or specific memory-related CPU thrashing) without further data.
+
+Missing Data:
+*   **Process-level CPU usage:** Which specific processes are consuming the CPU (e.g., output from `top`, `htop`, or `ps aux --sort=-%cpu`).
+*   **Detailed CPU usage breakdown:** Specific percentages for user, system, nice, softirq, and hardirq time.
+*   **Swap usage and activity:** Total swap used, and page-in/page-out rates to determine if the system is actively thrashing due to memory pressure.
+*   **Application-specific metrics:** Request rates, latency, error rates, queue depths, or garbage collection activity for any running applications.
+*   **Historical context:** Baseline CPU usage and load average before the incident.
+*   **Recent changes:** Information about recent deployments, configuration changes, or increased traffic.
+
+Next Investigation:
+1.  **Identify Top CPU-Consuming Processes:** Immediately run `top`, `htop`, or `ps aux --sort=-%cpu` to pinpoint the specific processes responsible for the high CPU usage.
+2.  **Check Swap Usage and Activity:** Use `free -h` and `vmstat` to assess total swap usage and observe page-in/page-out rates to determine if memory pressure and swapping are significant contributors.
+3.  **Review Relevant Application Logs:** Examine application-specific logs for errors, warnings, or unusual activity that coincides with the CPU saturation.
+4.  **Examine Recent Changes:** Investigate any recent deployments, configuration changes, or known increases in workload that could explain the change in CPU behavior.
+
+==================================================
+END OF REPORT
+==================================================

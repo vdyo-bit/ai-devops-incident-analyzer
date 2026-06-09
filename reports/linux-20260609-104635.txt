@@ -1,0 +1,59 @@
+
+==================================================
+AI DEVOPS INCIDENT REPORT
+==================================================
+
+Timestamp:
+2026-06-09 10:46:35
+
+Pod:
+Unknown
+
+Namespace:
+Unknown
+
+Incident Type:
+cpu_saturation
+
+Classifier Confidence:
+0.95
+
+Classification Reason:
+CPU idle percentage below threshold
+
+Validator Status:
+PASS
+
+Guardrails Status:
+PASS
+
+==================================================
+AI ANALYSIS
+==================================================
+
+Root Cause:
+The primary cause of the incident is CPU saturation, indicating that a process or processes are consuming nearly all available CPU resources. The high load average (6 on a 2-core system) strongly supports this, meaning there are 4 processes on average waiting for CPU time.
+A contributing factor is low available memory (300 MB out of 4 GB), which can lead to increased CPU usage due to memory management overhead (e.g., garbage collection, page faulting) or excessive swapping (though swap activity is unknown).
+
+Confidence:
+High. The metrics (98% CPU Usage, Load Average 6, `CPU idle percentage below threshold` log) unequivocally point to CPU saturation. The low available memory is a strong secondary indicator that could be exacerbating the CPU load.
+
+Missing Data:
+1.  **Process-level resource utilization:** Specific processes consuming the most CPU and memory.
+2.  **Swap usage and activity:** Is swap enabled, how much is used, and are there active swap-in/swap-out operations?
+3.  **Historical metric trends:** Was this a sudden spike or a gradual increase? What were normal operating metrics?
+4.  **Application-specific logs:** Logs from services running on the machine for errors, warnings, or unusual activity.
+5.  **Detailed Disk I/O metrics:** What specific processes are responsible for the 15% io wait, and what kind of I/O (reads/writes, latency) is occurring?
+6.  **Network I/O metrics:** To rule out network bottlenecks contributing to CPU load.
+7.  **Kernel/System logs:** Any Out Of Memory (OOM) killer events or other system-level errors.
+
+Next Investigation:
+1.  **Identify Top CPU-Consuming Processes:** Use `top`, `htop`, or `ps aux --sort=-%cpu` to pinpoint the specific process(es) driving the 98% CPU usage.
+2.  **Identify Top Memory-Consuming Processes:** Use `top`, `htop`, or `ps aux --sort=-%mem` to identify which processes are using the most memory, given the low available RAM.
+3.  **Check Swap Status and Activity:** Investigate `free -h` and `vmstat` (or `/proc/vmstat` for `pswpin`/`pswpout`) to determine if active swapping is occurring and contributing to the performance degradation.
+4.  **Review Application-Specific Logs:** Examine logs for any identified high-resource-consuming applications for unusual activity, errors, or warnings that coincide with the incident.
+5.  **Look for Recent Changes:** Check for any recent deployments, configuration changes, or traffic spikes that occurred prior to the incident.
+
+==================================================
+END OF REPORT
+==================================================

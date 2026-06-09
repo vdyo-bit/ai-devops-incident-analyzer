@@ -8,6 +8,59 @@ from flask import redirect
 app = Flask(__name__)
 
 
+def extract_report_details(filename):
+
+    incident_type = "Unknown"
+    confidence = "Unknown"
+
+    report_path = os.path.join(
+        "reports",
+        filename
+    )
+
+    try:
+
+        with open(report_path, "r") as f:
+            content = f.read()
+
+        if "cpu_saturation" in content.lower():
+            incident_type = "CPU Saturation"
+
+        elif "memory_pressure" in content.lower():
+            incident_type = "Memory Pressure"
+
+        elif "oomkilled" in content.lower():
+            incident_type = "OOMKilled"
+
+        elif "crashloopbackoff" in content.lower():
+            incident_type = "CrashLoopBackOff"
+
+        elif "imagepullbackoff" in content.lower():
+            incident_type = "ImagePullBackOff"
+
+        if "Classifier Confidence:" in content:
+
+            confidence = (
+                content
+                .split("Classifier Confidence:")[1]
+                .split("\n")[1]
+                .strip()
+            )
+
+    except Exception:
+        pass
+
+    return {
+        "filename": filename,
+        "incident_type": incident_type,
+        "confidence": confidence,
+        "category":
+            "Linux"
+            if "linux" in filename.lower()
+            else "Kubernetes"
+    }
+
+
 @app.route("/")
 def home():
 
@@ -16,18 +69,35 @@ def home():
     reports = []
 
     if os.path.exists(reports_dir):
-        reports = sorted(
+
+        report_files = sorted(
             os.listdir(reports_dir),
             reverse=True
         )
 
+        for report in report_files:
+
+            reports.append(
+                extract_report_details(
+                    report
+                )
+            )
+
     total_reports = len(reports)
 
     linux_reports = len(
-        [r for r in reports if "linux" in r.lower()]
+        [
+            r for r in reports
+            if r["category"] == "Linux"
+        ]
     )
 
-    k8s_reports = total_reports - linux_reports
+    k8s_reports = len(
+        [
+            r for r in reports
+            if r["category"] == "Kubernetes"
+        ]
+    )
 
     return render_template(
         "index.html",
@@ -52,11 +122,41 @@ def report(filename):
     with open(report_path, "r") as f:
         content = f.read()
 
-    return render_template(
-        "report.html",
-        filename=filename,
-        content=content
-    )
+    return f"""
+    <html>
+    <head>
+        <title>{filename}</title>
+        <style>
+            body {{
+                font-family: monospace;
+                padding: 30px;
+                background: #f5f5f5;
+            }}
+
+            pre {{
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                overflow-x: auto;
+            }}
+
+            a {{
+                text-decoration: none;
+            }}
+        </style>
+    </head>
+
+    <body>
+
+        <h2>{filename}</h2>
+
+        <a href="/">← Back to Dashboard</a>
+
+        <pre>{content}</pre>
+
+    </body>
+    </html>
+    """
 
 
 @app.route("/analyze-linux", methods=["POST"])
@@ -86,6 +186,7 @@ def analyze_k8s():
 
 
 if __name__ == "__main__":
+
     app.run(
         host="0.0.0.0",
         port=5000,
