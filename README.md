@@ -49,7 +49,7 @@ The platform collects operational evidence, classifies incidents, generates AI-p
 
 ## Architecture
 
-![AI DevOps Incident Analyzer Architecture](docs/images/ArchitectureDiagram-AI_DevOps_Incident_Analyzer.png)
+![AI DevOps Incident Analyzer Architecture](docs/images/AI_DevOps_Incident_Analyzer-ArchitectureDiagram.png)
 
 ---
 
