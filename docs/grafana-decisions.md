@@ -32,7 +32,7 @@ Its goal is situational awareness, not root-cause determination.
 
 ## Architecture Position
 
-![Architecture Position](images/Grafana-ArchitecturePosition.png)
+![Architecture Position](docs/images/Grafana-ArchitecturePosition.png)
 
 ---
 
