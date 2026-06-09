@@ -49,47 +49,7 @@ The platform collects operational evidence, classifies incidents, generates AI-p
 
 ## Architecture
 
-```text
-                    +----------------------+
-                    | Linux Metrics Source |
-                    +----------------------+
-                               |
-                               v
-
-+-------------+      +---------------------+
-| Kubernetes  |----->| Incident Collection |
-+-------------+      +---------------------+
-                               |
-                               v
-                    +----------------------+
-                    | Incident Parsing     |
-                    +----------------------+
-                               |
-                               v
-                    +----------------------+
-                    | Classification Engine|
-                    +----------------------+
-                               |
-                               v
-                    +----------------------+
-                    | Gemini AI Analysis   |
-                    +----------------------+
-                               |
-                               v
-                    +----------------------+
-                    | Validation & Safety  |
-                    +----------------------+
-                               |
-                               v
-                    +----------------------+
-                    | Report Generator     |
-                    +----------------------+
-                               |
-                               v
-                    +----------------------+
-                    | Flask Dashboard      |
-                    +----------------------+
-```
+![AI DevOps Incident Analyzer Architecture](docs/images/ArchitectureDiagram-AI_DevOps_Incident_Analyzer.png)
 
 ---
 
