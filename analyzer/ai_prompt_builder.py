@@ -130,7 +130,7 @@ Next Investigation:
 
     #
     # Live Kubernetes Incident
-    #
+
     elif incident.get("source") == "kubernetes":
 
         return f"""
@@ -148,6 +148,21 @@ POD:
 
 NAMESPACE:
 {incident.get('namespace', 'N/A')}
+
+CONTAINER:
+{incident.get('container_name', 'N/A')}
+
+IMAGE:
+{incident.get('image', 'N/A')}
+
+NODE:
+{incident.get('node', 'N/A')}
+
+MEMORY REQUEST:
+{incident.get('memory_request', 'N/A')}
+
+MEMORY LIMIT:
+{incident.get('memory_limit', 'N/A')}
 
 CURRENT REASON:
 {incident.get('current_reason', 'N/A')}
@@ -169,6 +184,7 @@ QUESTIONS:
 2. What evidence supports it?
 3. Is the current state a symptom or root cause?
 4. What remediation should be considered?
+5. Are the configured resource limits consistent with the observed failure?
 
 OUTPUT FORMAT:
 
@@ -185,6 +201,9 @@ Missing Data:
 ...
 
 Next Investigation:
+...
+
+Remediation:
 ...
 """
 

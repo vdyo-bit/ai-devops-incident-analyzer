@@ -2,6 +2,7 @@ import os
 
 from google import genai
 
+from k8s_discovery import get_failing_pods
 from k8s_collector import collect_pod_data
 from k8s_parser import parse_pod_data
 from k8s_incident_classifier import KubernetesIncidentClassifier
@@ -18,9 +19,29 @@ def main():
 
     namespace = "default"
 
-    pod_name = input("Pod Name: ").strip()
+    failing_pods = get_failing_pods(namespace)
 
-    print("\n[1/7] Collecting Kubernetes evidence...\n")
+    if not failing_pods:
+        print("No failing pods detected.")
+        return
+
+    print("\nDetected failing pods:\n")
+
+    for idx, pod in enumerate(
+        failing_pods,
+        start=1
+    ):
+        print(
+            f"{idx}. {pod['pod_name']} ({pod['status']})"
+        )
+
+    pod_name = failing_pods[0]["pod_name"]
+
+    print(
+        f"\nAutomatically analyzing: {pod_name}\n"
+    )
+
+    print("[1/7] Collecting Kubernetes evidence...\n")
 
     pod_data = collect_pod_data(
         namespace,
@@ -29,9 +50,14 @@ def main():
 
     print("[2/7] Parsing incident...\n")
 
-    incident = parse_pod_data(pod_data)
+    incident = parse_pod_data(
+        pod_data
+    )
 
-    print("[3/7] Classifying incident...\n")
+    print("Parsed Incident:")
+    print(incident)
+
+    print("\n[3/7] Classifying incident...\n")
 
     classifier = KubernetesIncidentClassifier()
 
@@ -46,7 +72,9 @@ def main():
 
     print("\n[4/7] Building prompt...\n")
 
-    prompt = build_prompt(incident)
+    prompt = build_prompt(
+        incident
+    )
 
     print("[5/7] Sending to Gemini...\n")
 
@@ -90,7 +118,10 @@ def main():
         f"reports/{incident['pod_name']}.txt"
     )
 
-    with open(report_file, "w") as f:
+    with open(
+        report_file,
+        "w"
+    ) as f:
         f.write(report)
 
     print("\n===== VALIDATION =====\n")
@@ -102,7 +133,9 @@ def main():
     print("\n===== INCIDENT REPORT =====\n")
     print(report)
 
-    print(f"\nReport saved to: {report_file}")
+    print(
+        f"\nReport saved to: {report_file}"
+    )
 
 
 if __name__ == "__main__":

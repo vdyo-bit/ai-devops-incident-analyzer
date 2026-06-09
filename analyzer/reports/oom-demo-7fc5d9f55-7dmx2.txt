@@ -1,0 +1,61 @@
+
+==================================================
+AI DEVOPS INCIDENT REPORT
+==================================================
+
+Timestamp:
+2026-06-08 11:22:07
+
+Pod:
+oom-demo-7fc5d9f55-7dmx2
+
+Namespace:
+default
+
+Incident Type:
+kubernetes_oomkilled
+
+Classifier Confidence:
+0.99
+
+Classification Reason:
+Previous container termination was OOMKilled
+
+Validator Status:
+PASS
+
+Guardrails Status:
+PASS
+
+==================================================
+AI ANALYSIS
+==================================================
+
+Root Cause:
+The container is consistently being terminated due to exceeding its allocated memory resources (Out Of Memory - OOMKilled). The application running inside the container is intentionally consuming virtual memory, leading to this exhaustion.
+
+Confidence:
+High
+
+Evidence:
+*   **`LAST REASON: OOMKilled`**: This explicitly states the final reason for the container's termination before the current `CrashLoopBackOff` state, directly pointing to memory exhaustion.
+*   **`EXIT CODE: 137`**: An exit code of 137 typically indicates that a process was terminated by signal 9 (SIGKILL), which is common for processes that are OOMKilled by the kernel.
+*   **`RESTART COUNT: 101`**: The high restart count indicates a persistent and recurring issue, confirming that the container is repeatedly crashing and being restarted due to the same underlying problem.
+*   **`CONTAINER LOGS: stress: info: [1] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd`**: The log from the `stress` command explicitly shows that it is configured to "dispatch hogs" for `1 vm` (virtual memory). This directly links the container's activity to memory consumption, providing a clear explanation for the `OOMKilled` state.
+*   **`CURRENT REASON: CrashLoopBackOff`**: This is a symptom that the container is repeatedly crashing after startup, which is a direct consequence of being OOMKilled and subsequently restarted.
+
+Missing Data:
+*   **Container resource limits and requests:** The specific memory limits and requests configured for the `oom-demo` container are not provided. This would help determine if the limits are too low, or if the application is misbehaving even within reasonable limits.
+*   **Exact amount of memory the `stress -vm` command is trying to allocate:** While we know it's trying to consume VM, the specific size of the memory hog is unknown.
+*   **Node-level memory utilization:** While the evidence points to a container-specific OOM, knowing the memory usage of the underlying node could provide broader context, though less likely to be the direct root cause here.
+*   **Kubernetes events for the pod:** Detailed pod events could offer more specifics around the OOM kill events.
+
+Next Investigation:
+1.  **Inspect the pod's YAML definition:** Specifically review the `resources.limits.memory` and `resources.requests.memory` configured for the `oom-demo` container.
+2.  **Verify `stress` command parameters:** Understand if the `stress -vm` command is configured to consume a specific, very large amount of memory that would inherently exceed most reasonable limits.
+3.  **Check Kubernetes events:** Use `kubectl describe pod oom-demo-7fc5d9f55-7dmx2 -n default` to review any related events that might provide more details about the OOM events.
+4.  **Consider memory limit adjustments:** Based on the current limits and the application's expected memory footprint, consider increasing the `resources.limits.memory` for the container.
+
+==================================================
+END OF REPORT
+==================================================

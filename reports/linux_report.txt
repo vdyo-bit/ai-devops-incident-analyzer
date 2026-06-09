@@ -1,0 +1,56 @@
+
+==================================================
+AI DEVOPS INCIDENT REPORT
+==================================================
+
+Timestamp:
+2026-06-08 16:26:55
+
+Pod:
+Unknown
+
+Namespace:
+Unknown
+
+Incident Type:
+cpu_saturation
+
+Classifier Confidence:
+0.95
+
+Classification Reason:
+CPU idle percentage below threshold
+
+Validator Status:
+PASS
+
+Guardrails Status:
+PASS
+
+==================================================
+AI ANALYSIS
+==================================================
+
+Root Cause:
+The most likely root cause is a CPU-bound application or process consuming nearly all available CPU cycles. The CPU usage at 98% and a high load average of 6 on a 2-core system indicate that the CPU is fully saturated and there's a significant backlog of processes waiting for CPU time. While there is some disk I/O wait (15%), the vast majority (85%) of CPU time is spent actively executing code.
+
+Confidence:
+High
+
+Missing Data:
+*   **Per-process CPU utilization:** To identify which specific process or processes are consuming the CPU.
+*   **Swap usage:** To determine if the low available memory (300 MB) is leading to excessive swapping, which can increase CPU usage and I/O.
+*   **Per-process memory utilization:** To see if any process is consuming an unusually large amount of memory, contributing to the low available memory.
+*   **Context switching rate:** High context switching can consume CPU cycles and indicate resource contention.
+*   **Application-specific logs/metrics:** Details from the applications running on the system could pinpoint specific functions or operations causing the CPU spike.
+*   **Historical CPU/Load Average trends:** To understand if this is a sudden spike or a gradual increase.
+
+Next Investigation:
+1.  **Identify top CPU-consuming processes:** Use tools like `top`, `htop`, or `ps aux --sort=-%cpu` to determine which processes are using the most CPU.
+2.  **Examine swap usage:** Check `free -h` or `vmstat` to understand the current swap utilization and activity (si/so).
+3.  **Analyze process details:** Once the culprit process(es) are identified, investigate their specific function, recent changes, and corresponding application logs for errors or unusual activity.
+4.  **Review recent changes:** Check for any recent deployments, code changes, configuration updates, or increased traffic that might have introduced a CPU-intensive workload.
+
+==================================================
+END OF REPORT
+==================================================
