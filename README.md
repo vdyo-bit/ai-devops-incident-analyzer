@@ -57,15 +57,11 @@ The platform collects operational evidence, classifies incidents, generates AI-p
 
 ### Linux Workflow
 
-<p align="center">
-  <img src="docs/images/Linux-Workflow.png" width="100%">
-</p>
+![Linux Workflow](docs/images/Linux-Workflow.png)
 
 ### Kubernetes Workflow
 
-<p align="center">
-  <img src="docs/images/Kubernetes-Workflow.png" width="100%">
-</p>
+![Kubernetes Workflow](docs/images/Kubernetes-Workflow.png)
 
 ---
 
