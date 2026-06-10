@@ -57,11 +57,15 @@ The platform collects operational evidence, classifies incidents, generates AI-p
 
 ### Linux Workflow
 
-![Linux Workflow](docs/images/Linux-Workflow.png)
+<p align="center">
+  <img src="docs/images/Linux-Workflow.png" width="100%">
+</p>
 
 ### Kubernetes Workflow
 
-![Kubernetes Workflow](docs/images/Kubernetes-Workflow.png)
+<p align="center">
+  <img src="docs/images/Kubernetes-Workflow.png" width="100%">
+</p>
 
 ---
 
@@ -148,9 +152,9 @@ python analyzer/live_k8s_ai_analyzer.py
 
 - Grafana Alert Integration
 - Prometheus Alertmanager Webhooks
-- Slack Notifications
+- Slack / Microsoft Teams Notifications
 - Multi-Cluster Kubernetes Support
-- Trend Analysis Dashboard
+- Historical Trend Analytics
 - AI Retry and Failover Logic
 
 ---
@@ -161,10 +165,10 @@ This project was built to explore:
 
 - Linux Internals
 - Kubernetes Troubleshooting
-- Incident Response Automation
-- Observability Concepts
+- Observability & Monitoring
+- Incident Analysis Workflows
 - AI-Assisted Operations
-- SRE Workflows
+- Site Reliability Engineering (SRE) Practices
 
 while maintaining a strong focus on safe and explainable AI-assisted incident analysis.
 
