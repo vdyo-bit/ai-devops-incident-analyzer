@@ -98,15 +98,15 @@ The platform collects operational evidence, classifies incidents, generates AI-p
 
 ### Dashboard
 
-(Add Dashboard Screenshot Here)
+![Dashboard Screenshot](docs/images/Dashboard.png)
 
 ### Kubernetes Incident Report
 
-(Add Kubernetes Report Screenshot Here)
+![Kubernetes Report](docs/images/KubernetesReport.png)
 
 ### Linux Incident Report
 
-(Add Linux Report Screenshot Here)
+![Linux Report](docs/images/LinuxReport.png)
 
 ---
 
